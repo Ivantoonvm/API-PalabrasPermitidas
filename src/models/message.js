@@ -31,4 +31,4 @@ const MessageSchema =  Schema({
 })
 
 
-module.exports = model('Message',MessageSchema);
+module.exports = model('Messages',MessageSchema);
