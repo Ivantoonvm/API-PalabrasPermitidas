@@ -1,5 +1,6 @@
 const {response, request} =  require('express');
 const Message = require('../models/message');
+const moment = require('moment');
 
 const MessagesGet = async (req=request,res= response) =>{
     
@@ -43,7 +44,7 @@ const MessagesSearch = async (req=request,res =response) =>{
 }
 
 const MessagesPut = async (req=request,res=response)=>{
-    const{id,lastDateUpdate = Date()} = req.params;
+    const{id,lastDateUpdate = moment().toISOString()} = req.params;
     
     const { word,allowed} = req.body;
     await Message.updateOne({_id:id}, {$set: {word,allowed,lastDateUpdate}})
@@ -57,7 +58,7 @@ const MessagesPut = async (req=request,res=response)=>{
 
 const MessagesDelete = async (req,res)=>{
     
-    const {id,dateDeleted= Date(),status = 'deleted'} = req.params
+    const {id,dateDeleted= moment().toISOString(),status = 'deleted'} = req.params
     const {word} = await Message.findById(id);
     await Message.updateOne({_id:id}, {$set: {dateDeleted,status}});   
     res.status(200).json({

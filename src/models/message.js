@@ -25,10 +25,12 @@ const MessageSchema =  Schema({
     dateDeleted:{
         type: Date, 
     }
-
-
-
-})
+});
+MessageSchema.methods.toJSON = function() {
+    const { __v, _id, ...message  } = this.toObject();
+    message.id = _id;
+    return message;
+}
 
 
 module.exports = model('Messages',MessageSchema);
